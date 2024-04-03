@@ -1,0 +1,90 @@
+@mixin px($x) {
+    padding-left: $x;
+    padding-right: $x;
+}
+
+@mixin py($y) {
+    padding-top: $y;
+    padding-bottom: $y;
+}
+
+@mixin mx($x) {
+    margin-left: $x;
+    margin-right: $x;
+}
+
+@mixin my($y) {
+    margin-top: $y;
+    margin-bottom: $y;
+}
+
+
+.profile {
+    &-card {
+        //mx-6 my-8 flex flex-col bg-white rounded-lg w-full px-5
+        display: flex;
+        flex-direction: column;
+        max-width: 60rem;
+        min-width: 35rem;
+        background-color: white;
+        border-radius: 1rem;
+        position: relative;
+        @include py(1.5rem);
+        @include px(2rem);
+        @include mx(5px);
+        @include my(2rem);
+        h2{
+            font-size: large;
+            font-weight: 600;
+        }
+        >*{
+            margin-top: 1rem;
+        }
+
+    }
+    &-user{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 20rem;
+    }
+    &-content{
+        @include my(1px);
+        padding-left: 5px;
+        border-radius: 5px;
+        border-width: 0.5px;
+        border-style: solid;
+        max-width: 30rem;
+    }
+    &-notes{
+        @extend .profile-content;
+        min-height: 5rem;
+    }
+    &-level{
+        position: absolute;
+        left: 15rem;
+        color:deepskyblue;
+    }
+    &-avatar{
+        img{
+            width: 10rem;
+            height: 10rem;
+            border-radius: 1rem;
+        }
+    }
+    &-btn{
+        //ml-2 bg-purple-500 hover:bg-purple-700 text-white py-4 px-2 rounded-xl w-20 
+        --tw-bg-opacity: 1;
+        background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+        width: 6rem;
+        color: #fff;
+        justify-self: center;
+        align-self: center;
+        &:hover{
+            --tw-bg-opacity: 1;
+            background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+        }
+        border-radius: 5px;
+        @include py(5px);
+    }
+}

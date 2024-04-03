@@ -31,7 +31,7 @@ export function BookIntro({ book }) {
                 <p className="text-gray-600">
                     <span className="font-bold">分类： </span>
                     <span>
-                        {book.classification}
+                        {book.tag}
                     </span>
                 </p>
                 <p className="text-gray-600">

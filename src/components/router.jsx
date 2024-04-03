@@ -3,6 +3,7 @@ import LoginPage from "../view/login";
 import HomePage from "../view/home";
 import BookPage from "../view/book";
 import CartPage from "../view/cart";
+import ProfilePage from "../view/profile";
 import { LoginButton } from "./loginComponents";
 
 export default function AppRouter() {
@@ -13,6 +14,7 @@ export default function AppRouter() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/book/:bid" element={<BookPage />} />
                 <Route path="/cart" element={<CartPage />} /> 
+                <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="/*" element={<HomePage/>} />
                 <Route exact strict path="/" component={LoginButton} />
             </Routes>

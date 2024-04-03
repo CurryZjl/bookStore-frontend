@@ -30,7 +30,7 @@ export default function BasicLayout({ children }) {
                         </Link>
                     </li>
                     <li className="mb-10">
-                        <Link to='' className="text-white hover:underline">
+                        <Link to='/profile' className="text-white hover:underline">
                             我的
                         </Link>
                     </li>
