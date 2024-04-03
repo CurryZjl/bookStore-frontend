@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components; 
+@tailwind utilities; 
+
+@layer components{
+    .book-card{
+        @apply bg-white rounded-lg shadow-md p-4 flex flex-col items-start px-6
+        ;
+    }
+}
+
+@layer components{
+    .book-image{
+        @apply w-48 h-48 object-cover mb-4 place-self-center;
+    }
+}
+
+@layer components{
+    .book-list{
+        @apply container mt-5 mx-auto p-8 grid grid-cols-2 md:grid-cols-4 gap-8;
+    }
+}
+
+@layer components{
+    .poster{
+        @apply absolute w-full h-full flex-1  object-fill transition duration-1000;
+    }
+}
+
+@layer components{
+    .book-dialog{
+        @apply fixed w-full max-w-full ml-32 mx-auto h-full px-6 bg-gray-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50  pr-36 overflow-hidden pt-14;
+    }
+}
+
+@layer components{
+    .dialog-background{
+        @apply flex flex-col items-center justify-center px-10 bg-white rounded-lg overflow-auto;
+    }
+}
+
+@layer components{
+    .btn-back{
+        @apply ml-2 bg-purple-500 hover:bg-purple-700 text-white py-4 px-2 rounded-xl w-20 z-10;
+    }
+}
+
+@layer components{
+    .btn-cart-detail{
+        @apply ml-2 bg-blue-500 hover:bg-blue-700 text-white py-4 px-2 rounded-xl w-24;
+    }
+}
+
+@layer components{
+    .btn-buy-detail{
+        @apply ml-2 bg-blue-500 hover:bg-blue-700 text-white py-4 px-2 rounded-xl w-20;
+    }
+}
+
+@layer components{
+    .btn-cart-delete{
+        @apply ml-2 bg-blue-500 hover:bg-blue-700 text-white py-4 px-2 rounded-xl w-20;
+    }
+}
