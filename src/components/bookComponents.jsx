@@ -42,7 +42,7 @@ export function BookIntro({ book }) {
                 </p>
                 <p className="text-gray-600">
                     <span className="font-bold">状态： </span>
-                    <span className={book.status === 0 && 'text-red-500'}>
+                    <span>
                         {book.status > 0 ? '有货' : '缺货'}
                     </span>
                     <span className="text-sm text-gray-400">  库存{book.status}件</span>
@@ -61,7 +61,7 @@ export function BookButtons() {
         <div className="flex flex-row justify-center gap-20 pt-5 mb-10">
             <button className="btn-cart-detail">加入购物车</button>
             <button className="btn-buy-detail">立即购买</button>
-            <Link to={{ pathname: '/' }}>
+            <Link to={{ pathname: '/home' }}>
                 <button className="btn-back" >返回首页</button>
             </Link>
         </div>

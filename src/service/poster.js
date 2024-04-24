@@ -1,3 +1,5 @@
+import { PREFIX, getJson } from "./common"
+
 export const posters = [
     {
         id: 0,
@@ -10,17 +12,35 @@ export const posters = [
         posterPath: "../images/posters/poster2.jpg"
     },
     {
-        id : 2,
+        id: 2,
         name: 'poster3',
         posterPath: "../images/posters/poster3.jpg"
     }
 ]
 
-export function getPosterById(_id) {
-    let result = posters.filter(poster =>
-        poster.id === _id);
-    if (result[0] != null)
-        return result[0];
-    else
-        return null;
+export async function getPosterById(_id) {
+    const url = `${PREFIX}/poster/${_id}`;
+    let poster;
+    try {
+        poster = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        poster = null;
+    }
+    return poster;
+}
+
+export async function getPosters() {
+    const url = `${PREFIX}/poster`;
+    let posters;
+    try {
+        posters = await getJson(url);
+    } catch (e) {
+        console.log(e);
+        posters = {
+            total: 0,
+            items: []
+        };
+    }
+    return posters;
 }

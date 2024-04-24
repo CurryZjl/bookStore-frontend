@@ -1,3 +1,5 @@
+import { PREFIX, getJson, get } from "./common.js";
+
 export const books = [
     {
         id: 1,
@@ -90,20 +92,31 @@ export const books = [
     }
 ]
 
-export function getBookByName(_name) {
-    let result = books.filter(book =>
-        book.name === _name);
-    if (result[0] != null)
-        return result[0];
-    else
-        return null;
+
+export async function getBookById(_id) {
+    const url = `${PREFIX}/books/${_id}`; //写后端url
+    let book;
+    try{
+        book = await getJson(url);
+    }catch(e){
+        console.log("get error! :", e);
+        book = null;
+    }
+    return book;
+
 }
 
-export function getBookById(_id) {
-    let result = books.filter(book =>
-        book.id === _id);
-    if (result[0] != null)
-        return result[0];
-    else
-        return null;
+export async function searchBooks(){
+    const url = `${PREFIX}/books`;
+    let books;
+    try{
+        books = await getJson(url);
+    }catch(e){
+        console.log(e);
+        books = {
+            total: 0,
+            items: []
+        };
+    }
+    return books;
 }

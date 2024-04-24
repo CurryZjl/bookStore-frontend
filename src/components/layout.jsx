@@ -10,7 +10,7 @@ export default function BasicLayout({ children }) {
                 <ul className="text-center mt-20 text-xl font-bold">
                     {/*列表*/}
                     <li className="mb-10">
-                        <Link to='/' className="text-white hover:underline">
+                        <Link to='/home' className="text-white hover:underline">
                             首页
                         </Link>
                     </li>

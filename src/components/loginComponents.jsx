@@ -20,7 +20,7 @@ export function Footer() {
     )
 }
 
-export function LoginInput({ _name }) {
+export function LoginInput({ _name , onChange}) {
     return (
         <div className="mb-6 pt-2 rounded-md bg-gray-400">
             <label
@@ -35,6 +35,7 @@ export function LoginInput({ _name }) {
                 placeholder={_name === 'email' ? "Email address" : "Password"}
                 className="bg-gray-200 rounded w-full text-gray-700  border-b-4  outline-none px-3 pb-1 pt-2"
                 maxLength={40}
+                onChange={onChange}
             />
         </div>
     );
@@ -56,7 +57,7 @@ export function LoginCheckbox() {
     );
 }
 
-export function LoginButton() {
+export function LoginButton() { //单写一个onClick意思是直接执行这个函数，而用{}包裹就是传入一个函数
     return (
         <button
             id="btnLog"
@@ -66,14 +67,14 @@ export function LoginButton() {
         </button>
     );
 }
-export function LoginCard({ children }) {
+export function LoginCard({ children, onSubmit }) {
     return (
-        <main className="bg-white max-w-lg mx-auto p-12 my-10 mt-14 shadow-3xl rounded-2xl">
+        <main className="bg-white max-w-2xl mx-auto p-12 my-10 mt-14 shadow-3xl rounded-2xl">
             <section>
                 <h2 className="font-bold text-2xl">Welcome to my BookStore</h2>
             </section>
             <section className="mt-10">
-                <form className="flex flex-col" method="post" action="#">
+                <form className="flex flex-col" onSubmit={onSubmit}>
                     {children}
                 </form>
             </section>

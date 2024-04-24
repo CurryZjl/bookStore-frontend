@@ -1,15 +1,29 @@
-import { getPosterById, posters } from "../service/poster";
-import { useState } from "react";
+import { getPosterById, getPosters } from "../service/poster";
+import { useState, useEffect } from "react";
 
 function Poster({ _id }) {
-    let poster = getPosterById(_id)
+    const [poster, setPoster] = useState(null);
+
+    const getPoster = async () => {
+        let pPoster = await getPosterById(_id);
+        setPoster(pPoster);
+    }
+
+    useEffect(() => {
+        getPoster();
+    })
+
+
     return (
-        <div id={poster.id} className="poster z-30">
-            <img
-                src={poster.posterPath}
-                className="w-full h-full z-30"
-                alt={poster.name}
-            />
+        <div className="poster z-30">
+            {
+                poster &&
+                <img
+                    src={poster.posterPath}
+                    className="w-full h-full z-30"
+                    alt={poster.name}
+                />
+            }
         </div>
     );
 }
@@ -27,30 +41,42 @@ function Dots() {
 
 export default function ImageSlider() {
     const [index, setIndex] = useState(0);
-    const length = posters.length;
+    const [posters, setPosters] = useState([]);
 
+    const searchPosters = async () => {
+        let pPosters = await getPosters();
+        setPosters(pPosters);
+    }
 
+    useEffect(() => {
+        searchPosters();
+    },[])
     function right() {
-        setIndex(i => (i + 1) % length);
+        setIndex(i => (i + 1) % posters.length);
     }
     function left() {
         if (index > 0) {
             setIndex(i => i - 1);
         }
         else {
-            setIndex(i => length - 1)
+            setIndex(i => posters.length - 1)
         }
     }
 
     return (
-        <div
-            id="slider"
-            className="relative w-3/5 h-96 border-solid border-gray-950 items-center overflow-auto flex"
-        >
-            <Poster _id={index} />
-            <div className="left" onClick={left} />
-            <div className="right" onClick={right} />
-            <Dots />
-        </div>
+        <>
+            {posters &&
+                <div
+                    id="slider"
+                    className="relative w-3/5 h-96 border-solid border-gray-950 items-center overflow-auto flex"
+                >
+                    <Poster _id={index} />
+                    <div className="left" onClick={left} />
+                    <div className="right" onClick={right} />
+                    <Dots />
+                </div>
+            }
+        </>
+
     );
 }

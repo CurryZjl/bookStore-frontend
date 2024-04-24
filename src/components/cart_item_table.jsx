@@ -1,22 +1,32 @@
 import { Table, Tag } from "antd";
-import { books } from "../service/book";
 import { Link } from "react-router-dom";
+import { useEffect , useState } from "react";
+import { searchCartBooks } from "../service/cart"
 
 
 export default function CartItemTable() {
+    const [cBooks,setCBooks] = useState([]);
+
+    const getCBooks = async () =>{
+        let pcBooks = await searchCartBooks();
+
+        setCBooks(pcBooks);
+    }
+
+    useEffect(()=>{
+        getCBooks();
+    },[])
+
     const handleDeleteItem = (id) => {
 
     }
 
-    let cartBooks = books.filter(book => 
-        book.amount > 0 );
-
     const columns = [
         {
             title: 'Cover',
-            dataIndex: 'imagePath',
+            dataIndex: 'imagePath',//指定这一列的对象
             key: 'cover',
-            render: (_,item) => <img src={item.imagePath} alt='cover' className="w-20 h-20" />
+            render: (_,item) => <img src={item.imagePath} alt='cover' className="w-20 h-20" /> //由于有了dataIndex，第一个参数就代表这行的值，即imagePath="***",这个‘***’字符串，第二个参数代表整行的数据对象，即现在的这本书
         },
         {
             title: 'Name',
@@ -58,6 +68,13 @@ export default function CartItemTable() {
     ]
 
     return (
-        <Table columns={columns} dataSource={cartBooks} className=" w-full px-10" />
+        <>
+        {cBooks &&
+            <Table columns={columns} dataSource={cBooks.map(b => ({
+                ...b,
+                key: b.id
+            }))} className=" w-full px-10" />
+        }
+        </>
     );
 }
