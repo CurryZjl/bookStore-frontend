@@ -30,7 +30,7 @@ export function LoginInput({ _name , onChange}) {
                 {_name === 'email' ? "Email" : "Password"}
             </label>
             <input
-                type="text"
+                type={_name === 'password' ? "password" : "text"}
                 id={_name}
                 placeholder={_name === 'email' ? "Email address" : "Password"}
                 className="bg-gray-200 rounded w-full text-gray-700  border-b-4  outline-none px-3 pb-1 pt-2"

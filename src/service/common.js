@@ -24,3 +24,16 @@ export async function getText(url){
     let res = await fetch(url, { method: "GET", credentials: "include" });
     return res.text();
 }
+
+export async function post(url,data){
+    let opts = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        credentials: "include"
+    }
+    let res = await fetch(url,opts);
+    return res.json();
+}

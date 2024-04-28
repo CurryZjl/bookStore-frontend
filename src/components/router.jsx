@@ -4,6 +4,7 @@ import HomePage from "../view/home";
 import BookPage from "../view/book";
 import CartPage from "../view/cart";
 import ProfilePage from "../view/profile";
+import OrderPage from "../view/order";
 
 export default function AppRouter() {
     return (
@@ -14,6 +15,7 @@ export default function AppRouter() {
                 <Route path="/book/:bid" element={<BookPage />} />
                 <Route path="/cart" element={<CartPage />} /> 
                 <Route path="/profile" element={<ProfilePage/>} />
+                <Route path="/order" element={<OrderPage/>} />
                 <Route path="/*" element={<HomePage/>} />
             </Routes>
         </BrowserRouter>

@@ -1,0 +1,38 @@
+.cart {
+    &-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-self: start;
+        margin-bottom: 2rem;
+        margin-left: 4rem;
+
+        >* {
+            margin-right: 2rem;
+        }
+    }
+
+    &-buy-btn {
+        --tw-bg-opacity: 1;
+        background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+        width: 6rem;
+        color: #fff;
+        justify-self: center;
+        align-self: center;
+
+        &:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+        }
+
+        border-radius: 5px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+
+        &[disabled] {
+            background-color: #ccc; // 设置按钮在 disabled 状态下的背景色
+            color: #999; // 设置按钮在 disabled 状态下的文字颜色
+            cursor: not-allowed; // 设置按钮在 disabled 状态下的鼠标指针样式为禁止
+        }
+    }
+}

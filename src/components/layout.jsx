@@ -20,7 +20,7 @@ export default function BasicLayout({ children }) {
                         </Link>
                     </li>
                     <li className="mb-10">
-                        <Link to='' className="text-white hover:underline">
+                        <Link to='/order' className="text-white hover:underline">
                             订单
                         </Link>
                     </li>
