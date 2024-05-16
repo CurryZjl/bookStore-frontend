@@ -1,7 +1,7 @@
 import { Form, Modal, Input, Button } from "antd";
 import useMessage from "antd/es/message/useMessage";
 import { postOrder } from "../service/order";
-import { handleBaseApiResponse } from "../utils/message";
+
 import "../css/order.scss";
 
 export default function PlaceOrderModal({
@@ -23,7 +23,7 @@ export default function PlaceOrderModal({
             itemIds: sBooks.map(b => b.id)
         }
         let res = await postOrder(orderInfor);
-        handleBaseApiResponse(res,messageApi,onSubmit);
+       
     }
 
     return (

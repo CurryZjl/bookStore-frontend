@@ -1,4 +1,4 @@
-import { PREFIX, getJson } from "./common"
+import { PREFIX, getResourece } from "./common"
 
 export const posters = [
     {
@@ -22,7 +22,7 @@ export async function getPosterById(_id) {
     const url = `${PREFIX}/poster/${_id}`;
     let poster;
     try {
-        poster = await getJson(url);
+        poster = await getResourece(url);
     } catch (e) {
         console.log(e);
         poster = null;
@@ -34,7 +34,7 @@ export async function getPosters() {
     const url = `${PREFIX}/poster`;
     let posters;
     try {
-        posters = await getJson(url);
+        posters = await getResourece(url);
     } catch (e) {
         console.log(e);
         posters = {

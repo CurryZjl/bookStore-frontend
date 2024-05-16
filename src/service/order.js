@@ -1,10 +1,10 @@
-import { PREFIX, getJson, DUMMY_RESPONSE, post} from "./common.js";
+import { PREFIX, getResourece, DUMMY_RESPONSE, post} from "./common.js";
 
 export async function getOrders(){
     const url = `${PREFIX}/orders`;
     let orders;
     try{
-        orders = await getJson(url);
+        orders = await getResourece(url);
     }catch(e){
         console.log(e);
         orders = {

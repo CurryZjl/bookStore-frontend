@@ -1,40 +1,26 @@
 import '../css/tailwind.css'
 import '../css/App.css'
 import { Header, LoginCard, LoginInput, LoginButton, LoginCheckbox, Footer } from '../components/loginComponents';
-import { useEffect, useState } from 'react';
-import { getUserEmail, getUserPassword } from '../service/profile';
+import { useState } from 'react';
+import { message as antdMessage } from 'antd';
+import { checkLogin } from '../service/auth';
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [emailU, setEmailU] = useState("");
-    const [passwordU, setPasswordU] = useState("");
-
-    const getEP = async () => {
-        let pEmail = await getUserEmail();
-        setEmailU(pEmail);
-        let pPassword = await getUserPassword();
-        setPasswordU(pPassword);
-    }
-
-    useEffect(() => {
-        getEP();
-    }, [])
-
-    const checkLogin = () => {
-        if (email === emailU && password === passwordU) {
-            window.location.href = '/home';
-        } else if (email !== emailU && password !== "") {
-            alert("邮箱输入错误!");
-        } else if (password !== passwordU && email !== "") {
-            alert("密码输入错误!");
-        } else if (email !== "" && password === "") {
-            alert("请先输入密码");
+    const checkInput = () => {
+        if (email !== "" && password === "") {
+            antdMessage.error("请先输入密码");
+            return false;
         } else if (email === "" && password !== "") {
-            alert("请先输入邮箱");
+            antdMessage.error("请先输入邮箱");
+            return false;
         } else if (email === "" && password === "") {
-            alert("请先输入邮箱和密码");
+            antdMessage.error("请先输入邮箱和密码");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -46,27 +32,32 @@ export default function LoginPage() {
         setPassword(e.target.value);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        checkLogin();
+        if (checkInput()) {
+            let res = await checkLogin(email, password);
+            if (!res.valid) {
+                antdMessage.error(res.message);
+            }
+            else {
+                antdMessage.success(res.message);
+                window.location.href = '/home';
+            }
+        }
     }
 
     return (
         <div id='loginHtml'>
-            {emailU && passwordU &&
-                <div className="body-bg content pt-12 pb-12" id="loginBody">
-                    <Header />
-                    {console.log(emailU, " ",passwordU)
-                    }
-                    <LoginCard onSubmit={handleSubmit}>
-                        <LoginInput _name={'email'} onChange={handleEmailChange} />
-                        <LoginInput _name={'password'} onChange={handlePasswordChange} />
-                        <LoginCheckbox />
-                        <LoginButton /> {/* 传递函数引用，而不是执行函数checkLogin() */}
-                    </LoginCard>
-                    <Footer />
-                </div>
-            }
+            <div className="body-bg content pt-12 pb-12" id="loginBody">
+                <Header />
+                <LoginCard onSubmit={handleSubmit}>
+                    <LoginInput _name={'email'} onChange={handleEmailChange} />
+                    <LoginInput _name={'password'} onChange={handlePasswordChange} />
+                    <LoginCheckbox />
+                    <LoginButton /> {/* 传递函数引用，而不是执行函数checkLogin() */}
+                </LoginCard>
+                <Footer />
+            </div>
         </div>
     );
 };

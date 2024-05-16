@@ -1,4 +1,4 @@
-import { getJson, PREFIX, getText } from "./common";
+import { getResourece, PREFIX } from "./common";
 
 // const profile = {
 //     name: 'Curry',
@@ -10,37 +10,13 @@ import { getJson, PREFIX, getText } from "./common";
 // }
 
 export async function getProfile(){
-    const url = `${PREFIX}/profile`; //写后端url
+    const url = `${PREFIX}/user`; //写后端url
     let profile;
     try{
-        profile = await getJson(url);
+        profile = await getResourece(url);
     }catch(e){
         console.log(e);
         profile = null;
     }
     return profile;
-}
-
-export async function getUserEmail(){
-    const url = `${PREFIX}/profile/email`; 
-    let email;
-    try{
-        email = await getText(url);
-    }catch(e){
-        console.log(e);
-        email = null;
-    }
-    return email;
-}
-
-export async function getUserPassword(){
-    const url = `${PREFIX}/profile/password`; 
-    let password;
-    try{
-        password = await getText(url);
-    }catch(e){
-        console.log(e);
-        password = null;
-    }
-    return password;
 }

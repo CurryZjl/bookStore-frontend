@@ -1,30 +1,33 @@
 import { Table, Tag, InputNumber, Button } from "antd";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { searchCartBooks } from "../service/cart"
-import PlaceOrderModal from "./place_order-modal"; 
+import { useState } from "react";
+import PlaceOrderModal from "./place_order-modal";
+import { deleteCartItem } from "../service/cart";
+import { message as antdMessage } from "antd";
 import "../css/cart.scss"
 
-export default function CartItemTable() {
-    const [cBooks, setCBooks] = useState([]);
+export default function CartItemTable({cartItems}) {
     const [selectedItems, setSelectedItems] = useState([]);
-    const [showModel, setShowModel] = useState(false);
-
-    const getCBooks = async () => {
-        let pcBooks = await searchCartBooks();
-        setCBooks(pcBooks);
+    const [showModel, setShowModel] = useState(false); 
+    const [cartItemsState, setCartItemsState] = useState(cartItems);
+    console.log(cartItems,cartItemsState);
+    async function DeleteItem (cid){
+        let res = await deleteCartItem(cid);
+        if(res.valid){
+            antdMessage.success(res.message);
+            const updatedCartItems = cartItemsState.filter(item => item.cid !== cid);
+            setCartItemsState(updatedCartItems);
+        }else{
+            antdMessage.error(res.message);
+        }
     }
 
-    useEffect(() => {
-        getCBooks();
-    }, [])
-
-    const handleDeleteItem = (id) => {
-        
+    const handleDeleteItem = (cid) => {
+        DeleteItem(cid);
     }
 
     function computePrice() {
-        const prices = selectedItems.map(item => item.price * item.amount);
+        const prices = selectedItems.map(item => item.bookDto.price * item.amount);
         return prices.length > 0 ?
             prices.reduce((prev, cur) => prev + cur) : 0;
     }
@@ -33,11 +36,11 @@ export default function CartItemTable() {
         setShowModel(true);
     }
 
-    function onCancel(){
+    function onCancel() {
         setShowModel(false);
     }
 
-    function handleOrderSubmit(){
+    function handleOrderSubmit() {
         setShowModel(false);
         console.log("submit");
     }
@@ -45,15 +48,15 @@ export default function CartItemTable() {
     const columns = [
         {
             title: 'Cover',
-            dataIndex: 'imagePath',//指定这一列的对象
+            dataIndex: 'bookDto.imagePath',//指定这一列的对象
             key: 'cover',
-            render: (_, item) => <img src={item.imagePath} alt='cover' className="w-20 h-20" /> //由于有了dataIndex，第一个参数就代表这行的值，即imagePath="***",这个‘***’字符串，第二个参数代表整行的数据对象，即现在的这本书
+            render: (_, item) => <img src={item.bookDto.imagePath} alt='cover' className="w-20 h-20" /> //由于有了dataIndex，第一个参数就代表这行的值，即imagePath="***",这个‘***’字符串，第二个参数代表整行的数据对象，即现在的这本书
         },
         {
             title: 'Name',
-            dataIndex: 'name',
+            dataIndex: 'bookDto.name',
             key: 'name',
-            render: (_, book) => (<Link to={'/book/' + book.id} className=" text-blue-400 hover:underline">{book.name}</Link>),
+            render: (_, item) => (<Link to={'/book/' + item.bookDto.bid} className=" text-blue-400 hover:underline">{item.bookDto.name}</Link>),
         },
         {
             title: 'Amount',
@@ -66,58 +69,54 @@ export default function CartItemTable() {
         },
         {
             title: 'Tag',
-            dataIndex: 'tag',
+            dataIndex: 'bookDto.tag',
             key: 'tag',
-            render: tag => {
+            render: (_,item) => {
                 return (
-                    <Tag color='geekblue' key={tag}>
-                        {tag}
+                    <Tag color='geekblue' key={item.bookDto.tag}>
+                        {item.bookDto.tag}
                     </Tag>
                 );
             },
         },
         {
             title: 'Price',
-            dataIndex: 'price',
+            dataIndex: 'bookDto.price',
             key: 'price',
-            render: price => '￥' + price
+            render: (_,item) => '￥' + item.bookDto.price
         },
         {
             title: 'Action',
             key: 'action',
             render: (_, item) => <button className='btn-cart-delete max-h-10 flex items-center justify-center' onClick={(e) => {
                 e.preventDefault();
-                handleDeleteItem(item.id);
+                handleDeleteItem(item.cid);
             }}>delete</button>,
         }
     ]
 
     return (
         <>
-            {cBooks &&
-                <>
-                    {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit}/> }
-                    <Table columns={columns} dataSource={cBooks.map(b => ({
-                        ...b,
-                        key: b.id
-                    }))} className=" w-full px-10"
-                        rowSelection={{
-                            onChange: (_, selectedItems) => {
-                                setSelectedItems(selectedItems);
-                            }
-                        }}
-                    />
-                    <div className="cart-footer">
-                        <p>
-                            总价：{computePrice()}元
-                        </p>
-                        <Button type="primary" disabled={selectedItems.length === 0} onClick={handleShowModel} 
-                        className="cart-buy-btn">
-                            立即下单
-                        </Button>
-                    </div>
-                </>
-            }
+            {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} />}
+            <Table columns={columns} dataSource={cartItemsState.map(b => ({
+                ...b,
+                key: b.cid
+            }))} className=" w-full px-10"
+                rowSelection={{
+                    onChange: (_, selectedItems) => {
+                        setSelectedItems(selectedItems);
+                    }
+                }}
+            />
+            <div className="cart-footer">
+                <p>
+                    总价：{computePrice()}元
+                </p>
+                <Button type="primary" disabled={selectedItems.length === 0} onClick={handleShowModel}
+                    className="cart-buy-btn">
+                    立即下单
+                </Button>
+            </div>
         </>
     );
 }
