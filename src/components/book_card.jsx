@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { putNewCartBook } from "../service/cart";
 import { message as antdMessage } from "antd";
+import { convertLongToPriceString } from "../utils/price";
 
 export default function BookCard({ book }) {
     async function  handleAddBookInCart() {
@@ -25,7 +26,7 @@ export default function BookCard({ book }) {
                 />
                 <h2 className="text-lg font-bold mb-2">{book.name}</h2>
                 <p className="text-gray-600">作者：{book.author}</p>
-                <p className="text-gray-600">价格：¥{book.price}</p>
+                <p className="text-gray-600">价格：¥{convertLongToPriceString(book.price)}</p>
                 </Link>
                 <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={handleAddBookInCart}>
                     加入购物车

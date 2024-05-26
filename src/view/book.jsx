@@ -1,6 +1,6 @@
 import BasicLayout from "../components/layout";
 import { getBookById } from "../service/book";
-import { BookLayout, BookIntro, BookButtons } from "../components/bookComponents";
+import { BookLayout, BookIntro } from "../components/bookComponents";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -24,7 +24,6 @@ export default function BookPage() {
                 <BasicLayout>
                     <BookLayout>
                         <BookIntro book={book} />
-                        <BookButtons />
                     </BookLayout>
                 </BasicLayout>
 

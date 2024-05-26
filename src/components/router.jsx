@@ -5,6 +5,7 @@ import BookPage from "../view/book";
 import CartPage from "../view/cart";
 import ProfilePage from "../view/profile";
 import OrderPage from "../view/order";
+import ErrorPage from "../view/errorPage";
 
 export default function AppRouter() {
     return (
@@ -16,7 +17,7 @@ export default function AppRouter() {
                 <Route path="/cart" element={<CartPage />} /> 
                 <Route path="/profile" element={<ProfilePage/>} />
                 <Route path="/order" element={<OrderPage/>} />
-                <Route path="/*" element={<HomePage/>} />
+                <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { putNewCartBook } from "../service/cart";
+import { convertLongToPriceString } from "../utils/price";
+import { message as antdMessage } from "antd";
 
 export function BookLayout({ children }) {
     return (
@@ -11,7 +14,17 @@ export function BookLayout({ children }) {
 }
 
 export function BookIntro({ book }) {
+    async function  handleAddBookInCart() {
+        let res = await putNewCartBook(book.bid);
+        if(res.valid){
+            antdMessage.success(res.message);
+        }else{
+            antdMessage.error(res.message);
+        }
+        
+    }
     return (
+        <>
         <div className="flex flex-row justify-center gap-10">
             <img
                 src={book.imagePath}
@@ -37,7 +50,7 @@ export function BookIntro({ book }) {
                 <p className="text-gray-600">
                     <span className="font-bold">价格： </span>
                     <span className="text-lg text-red-500">
-                        ¥{book.price}
+                        ¥{convertLongToPriceString( book.price)}
                     </span>
                 </p>
                 <p className="text-gray-600">
@@ -53,17 +66,13 @@ export function BookIntro({ book }) {
                 </p>
             </div>
         </div>
-    );
-}
-
-export function BookButtons() {
-    return (
         <div className="flex flex-row justify-center gap-20 pt-5 mb-10">
-            <button className="btn-cart-detail">加入购物车</button>
-            <button className="btn-buy-detail">立即购买</button>
-            <Link to={{ pathname: '/home' }}>
-                <button className="btn-back" >返回首页</button>
-            </Link>
-        </div>
+        <button className="btn-cart-detail" onClick={handleAddBookInCart}>加入购物车</button>
+        <button className="btn-buy-detail">立即购买</button>
+        <Link to={{ pathname: '/home' }}>
+            <button className="btn-back" >返回首页</button>
+        </Link>
+    </div>
+    </>
     );
 }

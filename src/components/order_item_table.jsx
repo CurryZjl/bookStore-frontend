@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import { formatTime } from "../utils/time";
 import OrderItemList from "./order_item_list";
+import { convertLongToPriceString } from "../utils/price";
 
 export default function OrderItemTable({ orders }) {
 
@@ -9,7 +10,7 @@ export default function OrderItemTable({ orders }) {
             title: "总价",
             dataIndex: 'price',
             key: 'price',
-            render: (price) => ("￥" + price + "元")
+            render: (price) => ("￥" + convertLongToPriceString(price) + "元")
         },
         {
             title: '收货人',
@@ -37,6 +38,7 @@ export default function OrderItemTable({ orders }) {
         }
     ]
 
+    if(orders)
     return (
         <Table className="w-full px-10"
             columns={columns}
@@ -47,8 +49,12 @@ export default function OrderItemTable({ orders }) {
             }}
             dataSource={orders.map(order => ({
                 ...order,
-                key: order.id
+                key: order.oid
             }))}
         />
+    )
+    else
+    return(
+        <Table className="w-full px-10"/>
     );
 }

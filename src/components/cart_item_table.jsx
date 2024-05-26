@@ -2,34 +2,29 @@ import { Table, Tag, InputNumber, Button } from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import PlaceOrderModal from "./place_order-modal";
-import { deleteCartItem } from "../service/cart";
+import { deleteCartItem, changeCartItemAmount } from "../service/cart";
 import { message as antdMessage } from "antd";
+import { convertLongToPriceString , computeTotalPrice} from "../utils/price";
 import "../css/cart.scss"
 
-export default function CartItemTable({cartItems}) {
+export default function CartItemTable({ cartItems }) {
     const [selectedItems, setSelectedItems] = useState([]);
-    const [showModel, setShowModel] = useState(false); 
+    const [showModel, setShowModel] = useState(false);
     const [cartItemsState, setCartItemsState] = useState(cartItems);
-    console.log(cartItems,cartItemsState);
-    async function DeleteItem (cid){
+    //console.log(cartItems,cartItemsState);
+    async function DeleteItem(cid) {
         let res = await deleteCartItem(cid);
-        if(res.valid){
+        if (res.valid) {
             antdMessage.success(res.message);
             const updatedCartItems = cartItemsState.filter(item => item.cid !== cid);
             setCartItemsState(updatedCartItems);
-        }else{
+        } else {
             antdMessage.error(res.message);
         }
     }
 
     const handleDeleteItem = (cid) => {
         DeleteItem(cid);
-    }
-
-    function computePrice() {
-        const prices = selectedItems.map(item => item.bookDto.price * item.amount);
-        return prices.length > 0 ?
-            prices.reduce((prev, cur) => prev + cur) : 0;
     }
 
     function handleShowModel() {
@@ -42,7 +37,39 @@ export default function CartItemTable({cartItems}) {
 
     function handleOrderSubmit() {
         setShowModel(false);
-        console.log("submit");
+        const selectedCids = selectedItems.map(item => item.cid);
+        // 从cartItemsState中删除已选择购买的对象
+        selectedCids.map(cid => deleteCartItem(cid))
+        const updatedCartItems = cartItemsState.filter(item => !selectedCids.includes(item.cid));
+        setCartItemsState(updatedCartItems);
+        setSelectedItems([]);
+    }
+
+    async function changeAmount(cid, amount) {
+        if(amount <= 0 ){
+            antdMessage.error("数量设置不合法，请输入正数")
+            return;
+        }
+        let res = await changeCartItemAmount(cid, amount);
+        if (res.valid) {
+            antdMessage.success(res.message);
+            const updatedCartItems = cartItemsState.map(item => {
+                if (item.cid === cid) {
+                    item.amount = amount;
+                }
+                return item;
+            });
+            const updatedSelectItems = selectedItems.map(item => {
+                if (item.cid === cid) {
+                    item.amount = amount;
+                }
+                return item;
+            });
+            setCartItemsState(updatedCartItems);
+            setSelectedItems(updatedSelectItems);
+        } else {
+            antdMessage.error(res.message);
+        }
     }
 
     const columns = [
@@ -62,16 +89,20 @@ export default function CartItemTable({cartItems}) {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
-            render: (number, item) => <InputNumber min={1} defaultValue={number} value={item.amount} onChange={(newNumber) => {
-                console.log(newNumber);
-                //TODO
-            }} />
+            render: (_, item) =>
+                <InputNumber min={1} value={item.amount}
+                    onPressEnter={(e) => {
+                        e.preventDefault();
+                        changeAmount(item.cid, e.target.value);
+                        e.target.blur();
+                    }}
+                />
         },
         {
             title: 'Tag',
             dataIndex: 'bookDto.tag',
             key: 'tag',
-            render: (_,item) => {
+            render: (_, item) => {
                 return (
                     <Tag color='geekblue' key={item.bookDto.tag}>
                         {item.bookDto.tag}
@@ -83,7 +114,7 @@ export default function CartItemTable({cartItems}) {
             title: 'Price',
             dataIndex: 'bookDto.price',
             key: 'price',
-            render: (_,item) => '￥' + item.bookDto.price
+            render: (_, item) => '￥' + convertLongToPriceString(item.bookDto.price) + "元"
         },
         {
             title: 'Action',
@@ -95,9 +126,10 @@ export default function CartItemTable({cartItems}) {
         }
     ]
 
+    if(cartItems)
     return (
         <>
-            {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} />}
+            {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} price={computeTotalPrice(selectedItems)} />}
             <Table columns={columns} dataSource={cartItemsState.map(b => ({
                 ...b,
                 key: b.cid
@@ -110,7 +142,7 @@ export default function CartItemTable({cartItems}) {
             />
             <div className="cart-footer">
                 <p>
-                    总价：{computePrice()}元
+                    总价：{computeTotalPrice(selectedItems)}元
                 </p>
                 <Button type="primary" disabled={selectedItems.length === 0} onClick={handleShowModel}
                     className="cart-buy-btn">
@@ -119,4 +151,9 @@ export default function CartItemTable({cartItems}) {
             </div>
         </>
     );
+    else{
+        return (
+            <Table className="w-full px-10"/>
+        )
+    }
 }

@@ -4,7 +4,7 @@ export const DUMMY_RESPONSE = {
     valid: false,
     message: "无法连接网络！"
 }
-//不要把fetch API写的哪里都是，集中在common，更好管理
+
 
 export async function getResourece(url){
     let res = await fetch(url, {method: "GET", credentials: "include"});
@@ -38,6 +38,19 @@ export async function get(url){
 export async function post(url,data){
     let opts = {
         method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        credentials: "include"
+    }
+    let res = await fetch(url,opts);
+    return res.json();
+}
+
+export async function patch(url,data){
+    let opts = {
+        method: "PATCH",
         body: JSON.stringify(data),
         headers: {
             'Content-type' : 'application/json'

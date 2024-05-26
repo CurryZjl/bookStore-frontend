@@ -1,4 +1,4 @@
-import { PREFIX, getResourece, put,DUMMY_RESPONSE , del} from "./common.js";
+import { PREFIX, getResourece, put,DUMMY_RESPONSE , del , patch} from "./common.js";
 
 export async function deleteCartItem(cid){
     const url = `${PREFIX}/cart/${cid}`;
@@ -13,11 +13,17 @@ export async function deleteCartItem(cid){
     return res;
 }
 
-export function changeCartItemNumber(){
-    return(
-        <>
-        </>
-    );
+export async function changeCartItemAmount(cid, amount){
+    const url = `${PREFIX}/cart/${cid}`;
+    let res;
+    try{
+        res = await patch(url,amount);
+    }catch(e){
+        console.log(e);
+        res = DUMMY_RESPONSE;
+    }
+    //console.log(res);
+    return res;
 }
 
 export async function searchCartBooks(){

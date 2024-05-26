@@ -3,6 +3,7 @@ import BasicLayout from "../components/layout";
 import TopSearchBox from "../components/top_search_box";
 import { useEffect, useState } from "react";
 import { searchCartBooks } from "../service/cart"
+import { Table } from "antd";
 
 export default function CartPage() {
     const [cBooks , setCBooks] = useState([]);
@@ -20,8 +21,11 @@ export default function CartPage() {
      <BasicLayout>
         <TopSearchBox/>
         <h1 className="mb-5 text-lg"><b>MyCart</b></h1>
-        {cBooks && cBooks.length !== 0 && 
+        {cBooks && cBooks.length !== 0 &&
         <CartItemTable cartItems={cBooks}/>}
+        {cBooks.length === 0 &&
+        <Table className="w-full px-10"/>
+        }
      </BasicLayout>
     );
 }

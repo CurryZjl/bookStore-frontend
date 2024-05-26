@@ -1,29 +1,42 @@
 import { Form, Modal, Input, Button } from "antd";
-import useMessage from "antd/es/message/useMessage";
+import { message as antdMessage } from "antd";
 import { postOrder } from "../service/order";
+import { convertPriceStringToLong } from "../utils/price";
 
 import "../css/order.scss";
 
 export default function PlaceOrderModal({
     sBooks,
     onSubmit,
-    onCancel }) {
+    onCancel,
+    price }) {
     const [form] = Form.useForm();
-    const [messageApi,contextHolder] = useMessage();
-
+    price = convertPriceStringToLong(price);
     const onFinish = async ({ address, receiver, phone }) => {
         if (!address || !receiver || !phone) {
-            messageApi.error("请填写完整信息");
+            antdMessage.error("请填写完整信息");
             return;
         }
+        let orderItems = sBooks.map(b => ({
+            amount: b.amount,
+            book:{
+                bid: b.bookDto.bid
+            }
+        }));
         let orderInfor = {
-            address,
             receiver,
             phone,
-            itemIds: sBooks.map(b => b.id)
+            address,
+            orderItems,
+            price
         }
         let res = await postOrder(orderInfor);
-       
+        if(res.valid){
+            antdMessage.success(res.message);
+            onSubmit()
+        }else{
+            antdMessage.error(res.message);
+        }
     }
 
     return (
@@ -31,14 +44,13 @@ export default function PlaceOrderModal({
             title={"填写订单"}
             open
             width={800}
-            onOk={onSubmit}
+            
             onCancel={onCancel}
             className="order-modal"
             footer={
                 null
             }
         >
-            {contextHolder}
             <Form className="order-modal-form"
                 layout="vertical"
                 form={form}
