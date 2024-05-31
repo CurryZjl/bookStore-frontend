@@ -1,4 +1,5 @@
-import { PREFIX, getResourece} from "./common.js";
+import { Content } from "antd/es/layout/layout.js";
+import { PREFIX, getResourece, post} from "./common.js";
 
 export async function getBookById(_id) {
     const url = `${PREFIX}/books/${_id}`; //写后端url
@@ -21,9 +22,24 @@ export async function searchBooks(){
     }catch(e){
         console.log(e);
         books = {
-            total: 0,
+            totalPages: 0,
             items: []
         };
     }
     return books;
+}
+
+export async function searchBooksByName(_query, pageIndex, pageSize){
+    const url = `${PREFIX}/books?query=${_query}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    let res;
+    try{
+        res = await getResourece(url);
+    }catch(e){
+        console.log(e);
+        res = {
+            totalPages: 0,
+            content: []
+        };
+    }
+    return res;
 }

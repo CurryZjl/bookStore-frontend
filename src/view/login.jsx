@@ -6,26 +6,26 @@ import { message as antdMessage } from 'antd';
 import { checkLogin } from '../service/auth';
 
 export default function LoginPage() {
-    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
 
     const checkInput = () => {
-        if (email !== "" && password === "") {
+        if (name !== "" && password === "") {
             antdMessage.error("请先输入密码");
             return false;
-        } else if (email === "" && password !== "") {
-            antdMessage.error("请先输入邮箱");
+        } else if (name === "" && password !== "") {
+            antdMessage.error("请先输入用户名");
             return false;
-        } else if (email === "" && password === "") {
-            antdMessage.error("请先输入邮箱和密码");
+        } else if (name === "" && password === "") {
+            antdMessage.error("请先输入用户名和密码");
             return false;
         } else {
             return true;
         }
     }
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
+    const handleNameChange = (e) => {
+        setName(e.target.value);
     }
 
     const handlePasswordChange = (e) => {
@@ -35,7 +35,7 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (checkInput()) {
-            let res = await checkLogin(email, password);
+            let res = await checkLogin(name, password);
             if (!res.valid) {
                 antdMessage.error(res.message);
             }
@@ -51,10 +51,10 @@ export default function LoginPage() {
             <div className="body-bg content pt-12 pb-12" id="loginBody">
                 <Header />
                 <LoginCard onSubmit={handleSubmit}>
-                    <LoginInput _name={'email'} onChange={handleEmailChange} />
-                    <LoginInput _name={'password'} onChange={handlePasswordChange} />
+                    <LoginInput _name={'name'} onChange={handleNameChange} />
+                    <LoginInput _name={'password'} onChange={handlePasswordChange} _type='password'/>
                     <LoginCheckbox />
-                    <LoginButton /> {/* 传递函数引用，而不是执行函数checkLogin() */}
+                    <LoginButton name="Login" />
                 </LoginCard>
                 <Footer />
             </div>

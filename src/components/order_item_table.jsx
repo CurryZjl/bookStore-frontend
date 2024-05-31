@@ -1,16 +1,18 @@
-import { Table } from "antd";
-import { formatTime } from "../utils/time";
+import { formatTime, calcTime } from "../utils/time";
 import OrderItemList from "./order_item_list";
 import { convertLongToPriceString } from "../utils/price";
+import { Table } from 'antd';
 
 export default function OrderItemTable({ orders }) {
-
+   
     const columns = [
         {
             title: "总价",
             dataIndex: 'price',
             key: 'price',
-            render: (price) => ("￥" + convertLongToPriceString(price) + "元")
+            sorter: (a, b) => a.price - b.price,
+            defaultSortOrder: 'ascend',
+            render: (price) => ("￥" + convertLongToPriceString(price) + "元"),
         },
         {
             title: '收货人',
@@ -31,6 +33,9 @@ export default function OrderItemTable({ orders }) {
             title: '下单时间',
             dataIndex: 'createOn',
             key: 'createOn',
+            defaultSortOrder: 'ascend',
+            sorter: (a, b) => calcTime(a, b),
+            sortDirections: ['ascend', 'descend', 'ascend'],
             render: (time) => {
                 let fTime = formatTime(time);
                 return fTime;
@@ -38,23 +43,23 @@ export default function OrderItemTable({ orders }) {
         }
     ]
 
-    if(orders)
-    return (
-        <Table className="w-full px-10"
-            columns={columns}
-            expandable={{
-                expandedRowRender: (record) => (
-                    <OrderItemList orderItems={record.orderItems} />
-                ),
-            }}
-            dataSource={orders.map(order => ({
-                ...order,
-                key: order.oid
-            }))}
-        />
-    )
+    if (orders)
+        return (
+            <Table className="w-full px-10"
+                columns={columns}
+                expandable={{
+                    expandedRowRender: (record) => (
+                        <OrderItemList orderItems={record.orderItems} />
+                    ),
+                }}
+                dataSource={orders.map(order => ({
+                    ...order,
+                    key: order.oid
+                }))}
+            />
+        )
     else
-    return(
-        <Table className="w-full px-10"/>
-    );
+        return (
+            <Table className="w-full px-10" />
+        );
 }

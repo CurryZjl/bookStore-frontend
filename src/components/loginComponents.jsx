@@ -13,26 +13,27 @@ export function Header() {
 export function Footer() {
     return (
         <footer className="max-w-lg mx-auto text-center mt-12 mb-6">
-            <Link to="/" className="text-sm text-white font-bold hover:underline">
+            <Link to="/signUp" className="text-sm text-white font-bold hover:underline">
                 New user? Sign up here
             </Link>
         </footer>
     )
 }
 
-export function LoginInput({ _name , onChange}) {
+export function LoginInput({ _name , onChange, _type = "text"}) {
     return (
         <div className="mb-6 pt-2 rounded-md bg-gray-400">
             <label
                 className="block text-gray-700 text-sm font-bold mb-2 ml-3"
                 htmlFor={_name}
             >
-                {_name === 'email' ? "Email" : "Password"}
+                {_name}
             </label>
             <input
-                type={_name === 'password' ? "password" : "text"}
+                type={_type}
                 id={_name}
-                placeholder={_name === 'email' ? "Email address" : "Password"}
+                placeholder={_name}
+                required="required"
                 className="bg-gray-200 rounded w-full text-gray-700  border-b-4  outline-none px-3 pb-1 pt-2"
                 maxLength={40}
                 onChange={onChange}
@@ -57,13 +58,13 @@ export function LoginCheckbox() {
     );
 }
 
-export function LoginButton() { //单写一个onClick意思是直接执行这个函数，而用{}包裹就是传入一个函数
+export function LoginButton({name}) { //单写一个onClick意思是直接执行这个函数，而用{}包裹就是传入一个函数
     return (
         <button
             id="btnLog"
             className="bg-blue-500 text-white font-bold py-2 rounded-lg shadow-lg hover:bg-blue-800 w-full"
         >
-            Login
+            {name}
         </button>
     );
 }

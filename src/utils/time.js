@@ -7,3 +7,14 @@ export function formatTime(_time){
     const showTime = moment(time).calendar();
     return showTime;
 }
+
+export function calcTime(a, b){
+    const timeA = new Date(a);
+    const timeB = new Date(b);
+    const MtimeA = moment(timeA);
+    const MtiemB = moment(timeB); 
+    if(MtimeA.isBefore(MtiemB))
+        return 1;
+    else
+        return -1;
+}

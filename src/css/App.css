@@ -63,6 +63,8 @@
 }
 
 
+
+
 #content {
   margin-left: 128px;
   flex: 1;
@@ -180,8 +182,17 @@
 .book-card:hover{
   transition: all 0.25s;
   transform: scale(105%);
+
 }
 
 .book-card{
   transition: all 0.25s;
+  max-width: 22rem;
+}
+
+.book-list-ant{
+  margin-left: 10rem;
+  margin-right: 10rem;
+  margin-top: 3rem;
+  min-width: 50rem;
 }
