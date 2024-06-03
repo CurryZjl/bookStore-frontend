@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getRole } from "../service/profile";
 
 export default function BasicLayout({ children }) {
+    const [role, setRole] = useState("");
+
+    const getCurRole = async () => {
+        let res = await getRole();
+        setRole(res);
+    }
+
+    useEffect(() => {
+        getCurRole();
+    }, [])
+
     return (
         <div className="font-sans flex flex-row">
             <div id="sidebar" className="min-h-screen flex flex-col w-32">
@@ -34,6 +47,14 @@ export default function BasicLayout({ children }) {
                             我的
                         </Link>
                     </li>
+                    {
+                        role === "ADMIN" && 
+                        <li className="mb-10">
+                        <Link to='/admin/users' className="text-white hover:underline">
+                            管理
+                        </Link>
+                    </li>
+                    }
                 </ul>
             </div>
             <div id="content" className="relative flex flex-col w-full min-h-screen bg-gray-100 overflow-auto">

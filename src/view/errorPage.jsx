@@ -8,8 +8,8 @@ export default function ErrorPage() {
             <p>
                 <i>404 Not Found</i>
             </p>
-            <Link to={'/'}>
-                <p>Back to Login Page</p>
+            <Link to={'/home'}>
+                <p>Back to home Page</p>
             </Link>
         </div>
     );

@@ -1,4 +1,3 @@
-import { Content } from "antd/es/layout/layout.js";
 import { PREFIX, getResourece, post} from "./common.js";
 
 export async function getBookById(_id) {

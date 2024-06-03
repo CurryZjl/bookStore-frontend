@@ -15,8 +15,8 @@ export async function getResourece(url) {
         let res = await fetch(url, { method: "GET", credentials: "include" });
         if (!res.ok) {
             if (res.status === 401) {
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else {
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -40,8 +40,8 @@ export async function get(url) {
         let res = await fetch(url, { method: "GET", credentials: "include" });
         if (!res.ok) {
             if(res.status === 401){
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -72,8 +72,8 @@ export async function post(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -88,9 +88,14 @@ export async function post(url, data) {
 }
 
 export async function patch(url, data) {
+    let stringData = data;
+    // 检查数据类型，如果是对象则转换为字符串
+    if (typeof data !== 'string') {
+        stringData = JSON.stringify(data);
+    }
     let opts = {
         method: "PATCH",
-        body: JSON.stringify(data),
+        body: stringData,
         headers: {
             'Content-type': 'application/json'
         },
@@ -100,8 +105,8 @@ export async function patch(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -128,8 +133,8 @@ export async function put(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -153,8 +158,8 @@ export async function del(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                alert('未经授权的访问，请重新登录');
                 window.location.href = "/";
+                alert('未经授权的访问，请重新登录');
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
