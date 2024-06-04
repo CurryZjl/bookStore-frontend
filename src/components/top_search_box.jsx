@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import { message as antdMessage } from "antd";
 
 export default function TopSearchBox() {
     const [searchTerm, setSearchTerm] = useState('');

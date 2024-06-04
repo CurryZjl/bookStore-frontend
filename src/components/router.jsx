@@ -8,6 +8,7 @@ import OrderPage from "../view/order";
 import ErrorPage from "../view/errorPage";
 import SignUpPage from "../view/signUpPage";
 import AdminView from "../view/admin";
+import StatPage from "../view/statPage";
 
 export default function AppRouter() {
     return (
@@ -21,6 +22,7 @@ export default function AppRouter() {
                 <Route path="/order" element={<OrderPage/>} />
                 <Route path="/signUp" element={<SignUpPage/>}/>
                 <Route path="/admin/:indexTab" element={<AdminView/>}/>
+                <Route path="/stat" element={<StatPage/>}/>
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

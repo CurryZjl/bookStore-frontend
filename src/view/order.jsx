@@ -1,15 +1,17 @@
 import OrderItemTable from "../components/order_item_table";
 import BasicLayout from "../components/layout";
-import TopSearchBox from "../components/top_search_box";
+import OrderSearchBox from "../components/order_search_box";
 import { useState, useEffect } from "react";
 import { getOrders } from "../service/order";
+import OrderTimePicker from "../components/order_time_picker";
+import "../css/order.scss";
 
 export default function OrderPage() {
-    const [orders, SetOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     const seachOrders = async () => {
         let pOrders = await getOrders();
-        SetOrders(pOrders);
+        setOrders(pOrders);
         //console.log(pOrders);
     }
 
@@ -18,10 +20,13 @@ export default function OrderPage() {
     }, [])
 
     return (
-     <BasicLayout>
-        <TopSearchBox/>
-        <h1 className="mb-5 text-lg"><b>MyOrder</b></h1>
-        { orders && <OrderItemTable orders={orders}/>}
-     </BasicLayout>
+        <BasicLayout>
+            <h1 className="mt-5 text-lg"><b>MyOrder</b></h1>
+            <div className="order-top-picker">
+                <OrderSearchBox setOrders={setOrders} />
+                <OrderTimePicker setOrders={setOrders}/>
+            </div>
+            {orders && <OrderItemTable orders={orders} />}
+        </BasicLayout>
     );
 }

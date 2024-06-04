@@ -37,23 +37,34 @@ export default function BasicLayout({ children }) {
                             订单
                         </Link>
                     </li>
-                    <li className="mb-10">
-                        <Link to='' className="text-white hover:underline">
-                            排行
-                        </Link>
-                    </li>
+                    {
+                        role === "ADMIN" &&
+                        <li className="mb-10">
+                            <Link to='' className="text-white hover:underline">
+                                排行
+                            </Link>
+                        </li>
+                    }
                     <li className="mb-10">
                         <Link to='/profile' className="text-white hover:underline">
                             我的
                         </Link>
                     </li>
                     {
-                        role === "ADMIN" && 
+                        role === "NORMAL" &&
                         <li className="mb-10">
-                        <Link to='/admin/users' className="text-white hover:underline">
-                            管理
-                        </Link>
-                    </li>
+                            <Link to='/stat' className="text-white hover:underline">
+                                统计
+                            </Link>
+                        </li>
+                    }
+                    {
+                        role === "ADMIN" &&
+                        <li className="mb-10">
+                            <Link to='/admin/users' className="text-white hover:underline">
+                                管理
+                            </Link>
+                        </li>
                     }
                 </ul>
             </div>
