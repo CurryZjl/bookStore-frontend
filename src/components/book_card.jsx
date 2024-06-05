@@ -27,6 +27,8 @@ export default function BookCard({ book }) {
                 <h2 className="text-lg font-bold mb-2">{book.name}</h2>
                 <p className="text-gray-600">作者：{book.author}</p>
                 <p className="text-gray-600">价格：¥{convertLongToPriceString(book.price)}</p>
+                <p className="text-gray-600">ISBN编号: {book.isbn}</p>
+                <p className="text-gray-600">库存量：{book.status}</p>
                 </Link>
                 <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={handleAddBookInCart}>
                     加入购物车

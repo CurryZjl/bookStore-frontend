@@ -1,4 +1,4 @@
-import { PREFIX, getResourece, DUMMY_RESPONSE, post, getResoureceByBody} from "./common.js";
+import { PREFIX, getResourece, DUMMY_RESPONSE, post} from "./common.js";
 
 export async function getOrders(){
     const url = `${PREFIX}/orders`;

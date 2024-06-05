@@ -53,7 +53,7 @@ export default function CartItemTable({ cartItems }) {
         let res = await changeCartItemAmount(cid, amount);
         if (res.valid) {
             antdMessage.success(res.message);
-            const updatedCartItems = cartItemsState.map(item => {
+            const updatedCartItems = cartItemsState.length > 0 &&  cartItemsState.map(item => {
                 if (item.cid === cid) {
                     item.amount = amount;
                 }
@@ -130,7 +130,7 @@ export default function CartItemTable({ cartItems }) {
     return (
         <>
             {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} price={computeTotalPrice(selectedItems)} />}
-            <Table columns={columns} dataSource={cartItemsState.map(b => ({
+            <Table columns={columns} dataSource={cartItemsState.length > 0 && cartItemsState.map(b => ({
                 ...b,
                 key: b.cid
             }))} className=" w-full px-10"

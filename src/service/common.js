@@ -59,30 +59,6 @@ export async function get(url) {
     
 }
 
-export async function getResoureceByBody(url, data1) {
-    try {
-        let res = await fetch(url, { method: "GET", credentials: "include" ,body: JSON.stringify(data1),});
-        if (!res.ok) {
-            if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
-            }
-            else{
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-        }
-        const data = await res.json();
-        if (data.valid === false) {
-            throw new Error(`${data.message}`);
-        }
-        return data; //返回包含信息的Response
-    } catch(e){
-        console.log(e);
-        throw new Error(e);
-    }
-    
-}
-
 export async function post(url, data) {
     let opts = {
         method: "POST",

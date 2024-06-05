@@ -1,18 +1,19 @@
 import { DatePicker } from 'antd';
-import { getOrdersByTimeBetween } from '../service/order';
+import { getStatBooksByTimeBetween } from '../service/stat';
+import "../css/order.scss";
 const { RangePicker } = DatePicker;
 
-export default function OrderTimePicker({ setOrders }) {
+export default function CusStatTimePicker({setStatItem }) {
     const handleRangeChange = async (_, dates) => {
-        let orders;
+        let item;
         if (dates && dates.length === 2) {
             try {
-                orders = await getOrdersByTimeBetween(dates[0], dates[1]);
+                item = await getStatBooksByTimeBetween(dates[0], dates[1]);
             } catch (e) {
                 console.log(e);
             }
-            console.log(orders);
-            setOrders(orders);
+            console.log(item);
+           setStatItem(item);
         }
     }
     return (
