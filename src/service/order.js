@@ -1,48 +1,53 @@
 import { PREFIX, getResourece, DUMMY_RESPONSE, post} from "./common.js";
 
-export async function getOrders(){
-    const url = `${PREFIX}/orders`;
+export async function getOrders(pageIndex, pageSize){
+    const url = `${PREFIX}/orders?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     let orders;
     try{
         orders = await getResourece(url);
     }catch(e){
         console.log(e);
-        // orders = {
-        //     total: 0,
-        //     items: []
-        // };
-        orders = [];
+        orders = {
+            totalPages: 0,
+            content: []
+        };
     }
     return orders;
 }
 
-export async function getOrdersByBookName(bookName){
-    const url = `${PREFIX}/orders/book?bookName=${bookName}`;
+export async function getOrdersByBookName(bookName,pageIndex, pageSize){
+    const url = `${PREFIX}/orders/book?bookName=${bookName}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
     let orders;
     try{
         orders = await getResourece(url);
     }catch(e){
         console.log(e);
-        orders = [];
+        orders = {
+            totalPages: 0,
+            content: []
+        };
     }
     return orders;
 }
 
-export async function getOrdersByTimeBetween(_startTime, _endTime){
-    let timeDto = {
-        startTime: _startTime,
-        endTime: _endTime,
-    }
-    console.log(timeDto);
-    const url = `${PREFIX}/orders/time`;
+export async function getOrdersByTimeBetween(_startTime, _endTime, pageIndex, pageSize){
+    // let timeDto = {
+    //     startTime: _startTime,
+    //     endTime: _endTime,
+    // }
+    // console.log(timeDto);
+    const url = `${PREFIX}/orders/time?startTime=${_startTime}&endTime=${_endTime}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
     let orders;
     try{
-        orders = await post(url,timeDto);
+        orders = await getResourece(url);
     }catch(e){
         console.log(e);
-        orders = [];
+        orders.resource = {
+            totalPages: 0,
+            content: []
+        };
     }
-    return orders.resource;
+    return orders;
 }
 
 export async function postOrder(orderInfo){

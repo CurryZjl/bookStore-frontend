@@ -1,11 +1,16 @@
-import { formatTime, calcTime } from "../utils/time";
-import OrderItemList from "./order_item_list";
-import { convertLongToPriceString } from "../utils/price";
+import { formatTime, calcTime } from "../../utils/time";
+import OrderItemList from "../order_item_list";
+import { convertLongToPriceString } from "../../utils/price";
 import { Table, Pagination } from 'antd';
 
-export default function OrderItemTable({ orders, pageSize, current, total, onPageChange }) {
+export default function AdminOrderItemTable({ orders, pageSize, current, total, onPageChange }) {
 
     const columns = [
+        {
+            title: '用户ID',
+            dataIndex: 'uid',
+            key: 'uid',
+        },
         {
             title: "总价",
             dataIndex: 'price',

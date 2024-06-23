@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { getOrdersByBookName } from "../service/order";
+import { useSearchParams } from "react-router-dom";
 
 export default function OrderSearchBox({ setOrders }) {
     const [bookName, setBookName] = useState('');
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const pageIndex = searchParams.get("pageIndex") != null ? Number.parseInt(searchParams.get("pageIndex")) : 0;
+    const pageSize = searchParams.get("pageSize") != null ? Number.parseInt(searchParams.get("pageSize")) : 10;
 
     const handleInputChange = (e) => {
         setBookName(e.target.value);
     };
 
     const handleSearch = async () => {
-        const orders = await getOrdersByBookName(bookName);
+        const orders = await getOrdersByBookName(bookName, pageIndex, pageSize);
         //console.log(orders);
-        setOrders(orders);
+        setOrders(orders.content);
+        console.log(orders);
     }
 
     return (

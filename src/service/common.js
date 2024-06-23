@@ -1,3 +1,4 @@
+import { message as antdMessage } from "antd";
 export const BASEURL = 'http://localhost:8080';
 export const PREFIX = `${BASEURL}/api`;
 export const DUMMY_RESPONSE = {
@@ -15,8 +16,11 @@ export async function getResourece(url) {
         let res = await fetch(url, { method: "GET", credentials: "include" });
         if (!res.ok) {
             if (res.status === 401) {
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
+                
             }
             else {
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -40,8 +44,11 @@ export async function get(url) {
         let res = await fetch(url, { method: "GET", credentials: "include" });
         if (!res.ok) {
             if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
+               
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -72,8 +79,11 @@ export async function post(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
+                
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -105,8 +115,11 @@ export async function patch(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
+                
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -133,8 +146,10 @@ export async function put(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -158,8 +173,10 @@ export async function del(url, data) {
         let res = await fetch(url, opts);
         if (!res.ok) {
             if(res.status === 401){
-                window.location.href = "/";
-                alert('未经授权的访问，请重新登录');
+                antdMessage.error('未经授权的访问，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
             }
             else{
                 throw new Error(`HTTP error! status: ${res.status}`);
@@ -170,6 +187,4 @@ export async function del(url, data) {
         console.log(e);
         throw new Error(e);
     }
-   
- 
 }
