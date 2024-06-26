@@ -44,6 +44,10 @@ export async function getAllOrders(bookName, startTime, endTime, pageIndex, page
         res = await getResourece(url);
     }catch(e){
         console.log(e);
+        antdMessage.error('没有权限，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
     }
     return res;
 
@@ -61,6 +65,30 @@ export async function getConsumptionsBetween(startTime, endTime){
         res = await getResourece(url);
     }catch(e){
         console.log(e);
+        antdMessage.error('没有权限，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
+    }
+    return res;
+}
+
+export async function getSalesBetween(startTime, endTime){
+    if(startTime === "")
+        startTime = "2024-03-24";
+    if(endTime === ""){
+        endTime = moment().format('YYYY-MM-DD');
+    }
+    const url = `${PREFIX}/orderItems/sales?startTime=${startTime}&endTime=${endTime}`;
+    let res;
+    try{
+        res = await getResourece(url);
+    }catch(e){
+        console.log(e);
+        antdMessage.error('没有权限，请重新登录');
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 500); // 等待0.5秒后跳转
     }
     return res;
 }

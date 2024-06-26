@@ -11,16 +11,15 @@ export const MyBreadCrumb = ({ activeIndex }) => {
     },
     {
       to: "/admin/books",
-    //   Icon: 
       text: "书籍管理", 
     },
     {
       to: "/admin/orders",
-      text: "订单管理", //   className: "monthbread",
+      text: "订单管理",
     },
     {
       to: "/admin/stat",
-      text: "数据统计", //   className: "typebread",
+      text: "用户消费统计",
     },
   ];
 

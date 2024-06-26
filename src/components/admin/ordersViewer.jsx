@@ -8,7 +8,7 @@ import "../../css/order.scss";
 
 const { Search } = Input;
 
-export default function OrdersViewer(){
+export default function OrdersViewer() {
     const [orders, setOrders] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
 
@@ -19,13 +19,18 @@ export default function OrdersViewer(){
     const startTime = searchParams.get("startTime") || "";
     const endTime = searchParams.get("endTime") || "";
 
-    const searchOrders = async () =>{
-        let pOrders = await getAllOrders(bookName, startTime, endTime,pageIndex, pageSize);
-        setOrders(pOrders.content);
-        setTotalPage(pOrders.totalPages);
-        console.log(pOrders);
+    const searchOrders = async () => {
+        try {
+            const pOrders = await getAllOrders(bookName, startTime, endTime, pageIndex, pageSize);
+            setOrders(pOrders.content);
+            setTotalPage(pOrders.totalPages);
+            console.log(pOrders);
+        } catch (e) {
+            console.log(e);
+        }
+
     }
-    
+
     useEffect(() => {
         searchOrders();
     }, [pageIndex, pageSize, bookName, startTime, endTime])
@@ -54,13 +59,13 @@ export default function OrdersViewer(){
             "pageIndex": 0,
             "pageSize": 10
         })
-    } 
+    }
 
     return (
         <>
             <div className="order-top-picker">
                 <Search placeholder="输入书本名" onSearch={handleSearch} enterButton size="large" />
-                <OrderTimePicker  handleTimeChange={handleTimeChange}/>
+                <OrderTimePicker handleTimeChange={handleTimeChange} />
             </div>
             {orders && <AdminOrderItemTable orders={orders} pageSize={pageSize} total={totalPage * pageSize} current={pageIndex + 1} onPageChange={handlePageChange} />}
         </>

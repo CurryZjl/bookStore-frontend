@@ -9,6 +9,7 @@ import ErrorPage from "../view/errorPage";
 import SignUpPage from "../view/signUpPage";
 import AdminView from "../view/admin";
 import StatPage from "../view/statPage";
+import RankPage from "../view/rank";
 
 export default function AppRouter() {
     return (
@@ -23,6 +24,7 @@ export default function AppRouter() {
                 <Route path="/signUp" element={<SignUpPage/>}/>
                 <Route path="/admin/:indexTab" element={<AdminView/>}/>
                 <Route path="/stat" element={<StatPage/>}/>
+                <Route path="/rank" element={<RankPage/>} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

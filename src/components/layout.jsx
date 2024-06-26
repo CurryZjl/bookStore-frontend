@@ -40,7 +40,7 @@ export default function BasicLayout({ children }) {
                     {
                         role === "ADMIN" &&
                         <li className="mb-10">
-                            <Link to='' className="text-white hover:underline">
+                            <Link to='/rank' className="text-white hover:underline">
                                 排行
                             </Link>
                         </li>

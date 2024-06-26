@@ -13,7 +13,6 @@ export default function CusStatTable({ statItems }) {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (_, item) => (<Link to={'/book/' + item.bid} className=" text-blue-400 hover:underline">{item.name}</Link>),
         },
         {
             title: 'Count',

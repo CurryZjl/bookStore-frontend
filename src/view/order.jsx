@@ -35,7 +35,7 @@ export default function OrderPage() {
             console.log(e);
         }
         
-        console.log(pOrders);
+        //console.log(pOrders);
     }
 
     useEffect(() => {
