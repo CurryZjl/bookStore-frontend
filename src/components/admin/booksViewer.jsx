@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { message as antdMessage } from "antd";
 import { convertLongToPriceString } from "../../utils/price";
+import EditBookModal from "./editBookModal";
 import { deleteBookByBid, searchBooksByName, updateBook } from "../../service/book";
 
 const { Search } = Input;
@@ -32,6 +33,15 @@ export default function BooksViewer() {
     useEffect(() => {
         getBooks();
     }, [query, pageIndex, pageSize])
+
+
+    function handleShowModel() {
+        setShowModel(true);
+    }
+
+    function onCancel(){
+        setShowModel(false);
+    }
 
     const handleSearch = (bookName) => {
         setSearchParams({
@@ -79,7 +89,7 @@ export default function BooksViewer() {
                     setEditingKey(-1);
                     antdMessage.success(res.message);
                 }
-                else{
+                else {
                     antdMessage.error(res.message);
                 }
 
@@ -285,8 +295,15 @@ export default function BooksViewer() {
 
     return (
         <>
+            {showModel && <EditBookModal onCancel={onCancel}/>}
             <div className="order-top-picker">
                 <Search placeholder="输入书本名" onSearch={handleSearch} enterButton size="large" className="mx-4" />
+                <Button type="primary"
+                    onClick={handleShowModel}
+                    className="cart-buy-btn"
+                >
+                    添加新图书
+                </Button>
             </div>
             <Form form={form} component={false}>
                 <Table columns={mergedColumns}
