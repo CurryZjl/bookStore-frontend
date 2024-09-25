@@ -1,4 +1,5 @@
-import { PREFIX, post, get} from "./common.js";
+import { PREFIX, post} from "./common.js";
+import moment from "moment";
 
 export async function getStatBooksByTimeBetween(_startTime, _endTime){
     let timeDto = {
@@ -23,9 +24,13 @@ export async function getStatBooksByTimeBetween(_startTime, _endTime){
 
 export async function getStatItem(){
     const url = `${PREFIX}/orders/stat`;
+    let timeDto = {
+        startTime: "2024-03-24",
+        endTime: moment().format('YYYY-MM-DD'),
+    }
     let books;
     try{
-        books = await get(url);
+        books = await post(url,timeDto);
     }catch(e){
         console.log(e);
         books = {};

@@ -58,6 +58,9 @@ export default function ProfileCard({ user }) {
             <button className='profile-btn'>
                 编辑资料
             </button>
+            <button className='profile-btn'>
+                登出
+            </button>
         </div>
     );
 }

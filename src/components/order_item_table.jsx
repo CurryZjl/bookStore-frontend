@@ -33,9 +33,9 @@ export default function OrderItemTable({ orders, pageSize, current, total, onPag
             title: '下单时间',
             dataIndex: 'createOn',
             key: 'createOn',
-            defaultSortOrder: 'ascend',
+            defaultSortOrder:  'descend',
             sorter: (a, b) => calcTime(a, b),
-            sortDirections: ['ascend', 'descend', 'ascend'],
+            sortDirections: ['descend',  'descend'],
             render: (time) => {
                 let fTime = formatTime(time);
                 return fTime;
