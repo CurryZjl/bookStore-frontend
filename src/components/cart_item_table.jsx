@@ -1,17 +1,39 @@
 import { Table, Tag, InputNumber, Button } from "antd";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PlaceOrderModal from "./place_order-modal";
 import { deleteCartItem, changeCartItemAmount } from "../service/cart";
-import { message as antdMessage } from "antd";
+import { message as antdMessage , notification} from "antd";
 import { convertLongToPriceString , computeTotalPrice} from "../utils/price";
 import "../css/cart.scss"
+import { openWebSocket, websocket } from "../utils/webSocketUtil";
 
 export default function CartItemTable({ cartItems }) {
     const [selectedItems, setSelectedItems] = useState([]);
     const [showModel, setShowModel] = useState(false);
     const [cartItemsState, setCartItemsState] = useState(cartItems);
     //console.log(cartItems,cartItemsState);
+
+    useEffect(()=>{
+        openWebSocket();
+        if(websocket){
+            websocket.onmessage = (evt) => {
+                console.log(evt);
+                let msgDto = JSON.parse(evt.data);
+                msgDto.valid ? notification.success({
+                    message: "成功完成订单！",
+                    description: msgDto.message,
+                    placement: "top"
+                }) :
+                notification.error({
+                    message: "处理订单失败！",
+                    description: msgDto.message + "\n请重新查看购物车项目",
+                    placement: "top"
+                })
+            }
+        }
+    }, []);
+
     async function DeleteItem(cid) {
         let res = await deleteCartItem(cid);
         if (res.valid) {
@@ -39,7 +61,7 @@ export default function CartItemTable({ cartItems }) {
         setShowModel(false);
         const selectedCids = selectedItems.map(item => item.cid);
         // 从cartItemsState中删除已选择购买的对象
-        selectedCids.map(cid => deleteCartItem(cid))
+        // selectedCids.map(cid => deleteCartItem(cid)) 前端不再主动删除数据库购物车项目，业务都交给后端
         const updatedCartItems = cartItemsState.filter(item => !selectedCids.includes(item.cid));
         setCartItemsState(updatedCartItems);
         setSelectedItems([]);

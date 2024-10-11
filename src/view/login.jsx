@@ -4,6 +4,7 @@ import { Header, LoginCard, LoginInput, LoginButton, LoginCheckbox, Footer } fro
 import { useState } from 'react';
 import { message as antdMessage } from 'antd';
 import { checkLogin } from '../service/auth';
+import { LOCAL_UID_KEY } from '../constants/userConfig';
 
 export default function LoginPage() {
     const [name, setName] = useState("");
@@ -41,6 +42,8 @@ export default function LoginPage() {
             }
             else {
                 antdMessage.success(res.message);
+                console.log("userID:" + res.resource + "成功登录");
+                localStorage.setItem(LOCAL_UID_KEY, res.resource);
                 window.location.href = '/home';
             }
         }

@@ -1,4 +1,4 @@
-import { post, PREFIX , DUMMY_RESPONSE } from "./common";
+import { post, PREFIX , DUMMY_RESPONSE, getResourece } from "./common";
 
 export async function checkLogin(_name, _password){
     let authDto = {
@@ -12,6 +12,18 @@ export async function checkLogin(_name, _password){
     } catch(e){
         console.log(e);
         res = DUMMY_RESPONSE;
+    }
+    return res;
+}
+
+export async function logout() {
+    const url = `${PREFIX}/auth/logout`;
+    let res;
+    try{
+        res = await getResourece(url);
+    }catch(e){
+        console.log("logout error! :", e);
+        res = null;
     }
     return res;
 }

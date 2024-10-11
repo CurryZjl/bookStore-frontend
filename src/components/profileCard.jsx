@@ -1,8 +1,22 @@
-import '../css/tailwind.css'
-import '../css/profileCard.scss'
-
+import '../css/tailwind.css';
+import '../css/profileCard.scss';
+import { logout } from '../service/auth';
+import {notification} from 'antd';
+import { LOCAL_UID_KEY } from '../constants/userConfig';
 
 export default function ProfileCard({ user }) {
+    const logoutHandler = async () => {
+        let logoutMessage = await logout();
+        notification.success({
+            message: "成功退出！",
+            description: logoutMessage,
+            placement: "top"
+        });
+        localStorage.removeItem(LOCAL_UID_KEY);
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 500);
+    } 
     return (
         <div className='profile-card'>
             <h1 className='font-bold text-3xl'>
@@ -58,7 +72,7 @@ export default function ProfileCard({ user }) {
             <button className='profile-btn'>
                 编辑资料
             </button>
-            <button className='profile-btn'>
+            <button className='profile-btn' onClick={logoutHandler}>
                 登出
             </button>
         </div>

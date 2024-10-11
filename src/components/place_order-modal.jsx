@@ -1,5 +1,5 @@
 import { Form, Modal, Input, Button } from "antd";
-import { message as antdMessage } from "antd";
+import { message as antdMessage, notification} from "antd";
 import { postOrder } from "../service/order";
 import { convertPriceStringToLong } from "../utils/price";
 
@@ -32,10 +32,16 @@ export default function PlaceOrderModal({
         }
         let res = await postOrder(orderInfor);
         if(res.valid){
-            antdMessage.success(res.message);
-            onSubmit()
+            notification.success({
+                message: res.message,
+                placement: "top"
+            });
+            onSubmit(); //NOTE:: 这里只是确认订单发出后删除前端的购物车对象
         }else{
-            antdMessage.error(res.message);
+            notification.error({
+                message: res.message,
+                placement: "top"
+            });
         }
     }
 
