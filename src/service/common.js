@@ -1,6 +1,7 @@
 import { message as antdMessage } from "antd";
 export const BASEURL = 'http://localhost:8080';
 export const PREFIX = `${BASEURL}/api`;
+export const MICRO_PREFIX = `${BASEURL}/micro`;
 export const DUMMY_RESPONSE = {
     valid: false,
     message: "无法连接网络！"
@@ -76,7 +77,9 @@ export async function post(url, data) {
         credentials: "include"
     }
     try{
+        console.log("post", opts);
         let res = await fetch(url, opts);
+        console.log(res);
         if (!res.ok) {
             if(res.status === 401){
                 antdMessage.error('未经授权的访问，请重新登录');

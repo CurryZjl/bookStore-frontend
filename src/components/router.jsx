@@ -10,6 +10,7 @@ import SignUpPage from "../view/signUpPage";
 import AdminView from "../view/admin";
 import StatPage from "../view/statPage";
 import RankPage from "../view/rank";
+import SearchPage from "../view/search";
 
 export default function AppRouter() {
     return (
@@ -25,6 +26,7 @@ export default function AppRouter() {
                 <Route path="/admin/:indexTab" element={<AdminView/>}/>
                 <Route path="/stat" element={<StatPage/>}/>
                 <Route path="/rank" element={<RankPage/>} />
+                <Route path="/author" element={<SearchPage/>} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

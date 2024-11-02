@@ -37,6 +37,11 @@ export default function BasicLayout({ children }) {
                             订单
                         </Link>
                     </li>
+                    <li className="mb-10">
+                        <Link to='/author' className="text-white hover:underline">
+                            搜索
+                        </Link>
+                    </li>
                     {
                         role === "ADMIN" &&
                         <li className="mb-10">

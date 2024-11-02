@@ -1,4 +1,5 @@
-import { PREFIX, getResourece, DUMMY_RESPONSE, post} from "./common.js";
+import { Result } from "antd";
+import { PREFIX, BASEURL, getResourece, DUMMY_RESPONSE, post} from "./common.js";
 
 export async function getOrders(pageIndex, pageSize){
     const url = `${PREFIX}/orders?pageIndex=${pageIndex}&pageSize=${pageSize}`;
@@ -60,4 +61,29 @@ export async function postOrder(orderInfo){
         res = DUMMY_RESPONSE;
     }
     return res;
+}
+
+export async function computeProduct(amount, price) {
+    const data = JSON.stringify([[amount, price]]);
+    console.log(data);
+    try{
+        const url = `${BASEURL}/price`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: data,
+            credentials: 'include'
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    
+        const res = await response.json();
+        console.log(res);
+        return res[0];
+    }catch(e){
+        console.error(e);
+    }
 }

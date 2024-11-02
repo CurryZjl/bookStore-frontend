@@ -12,6 +12,7 @@ export default function CartItemTable({ cartItems }) {
     const [selectedItems, setSelectedItems] = useState([]);
     const [showModel, setShowModel] = useState(false);
     const [cartItemsState, setCartItemsState] = useState(cartItems);
+    const [totalPrice, setTotalPrice] = useState(0);
     //console.log(cartItems,cartItemsState);
 
     useEffect(()=>{
@@ -33,6 +34,15 @@ export default function CartItemTable({ cartItems }) {
             }
         }
     }, []);
+
+    useEffect(() => {
+        async function calculateTotal() {
+          const total = await computeTotalPrice(selectedItems);
+          setTotalPrice(total);
+        }
+    
+        calculateTotal();
+      }, [selectedItems]);
 
     async function DeleteItem(cid) {
         let res = await deleteCartItem(cid);
@@ -151,7 +161,7 @@ export default function CartItemTable({ cartItems }) {
     if(cartItems)
     return (
         <>
-            {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} price={computeTotalPrice(selectedItems)} />}
+            {showModel && <PlaceOrderModal onCancel={onCancel} sBooks={selectedItems} onSubmit={handleOrderSubmit} price={totalPrice} />}
             <Table columns={columns} dataSource={cartItemsState.length > 0 && cartItemsState.map(b => ({
                 ...b,
                 key: b.cid
@@ -164,7 +174,7 @@ export default function CartItemTable({ cartItems }) {
             />
             <div className="cart-footer">
                 <p>
-                    总价：{computeTotalPrice(selectedItems)}元
+                    总价：{totalPrice}元
                 </p>
                 <Button type="primary" disabled={selectedItems.length === 0} onClick={handleShowModel}
                     className="cart-buy-btn">
