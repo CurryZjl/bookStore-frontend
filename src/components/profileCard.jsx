@@ -15,7 +15,7 @@ export default function ProfileCard({ user }) {
         localStorage.removeItem(LOCAL_UID_KEY);
         setTimeout(() => {
             window.location.href = "/";
-        }, 500);
+        }, 1500);
     } 
     return (
         <div className='profile-card'>

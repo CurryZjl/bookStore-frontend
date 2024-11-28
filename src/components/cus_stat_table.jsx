@@ -3,12 +3,6 @@ import { Table } from "antd";
 export default function CusStatTable({ statItems }) {
     const columns = [
         {
-            title: 'Cover',
-            dataIndex: 'imagePath',//指定这一列的对象
-            key: 'cover',
-            render: (_, item) => <img src={item.imagePath} alt='cover' className="w-20 h-20" />
-        },
-        {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
