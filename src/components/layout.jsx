@@ -39,7 +39,12 @@ export default function BasicLayout({ children }) {
                     </li>
                     <li className="mb-10">
                         <Link to='/author' className="text-white hover:underline">
-                            搜索
+                            作者
+                        </Link>
+                    </li>
+                    <li className="mb-10">
+                        <Link to='/tagName' className="text-white hover:underline">
+                            标签
                         </Link>
                     </li>
                     {

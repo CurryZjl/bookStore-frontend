@@ -27,6 +27,18 @@ export async function searchBooksByName(_query, pageIndex, pageSize){
     return res;
 }
 
+export async function searchBooksByTagName(tagName) {
+    const url = `${PREFIX}/books/tag?tag=${tagName}`;
+    let res;
+    try{
+        res = await getResourece(url);
+    }catch(e){
+        console.log(e);
+        res = [];
+    }
+    return res;
+}
+
 export async function deleteBookByBid(bid){
     const url = `${PREFIX}/books/${bid}`; //写后端url
     let res;

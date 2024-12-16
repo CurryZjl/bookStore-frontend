@@ -11,6 +11,7 @@ import AdminView from "../view/admin";
 import StatPage from "../view/statPage";
 import RankPage from "../view/rank";
 import SearchPage from "../view/search";
+import TagNamePage from "../view/tagSearchPage";
 
 export default function AppRouter() {
     return (
@@ -27,6 +28,7 @@ export default function AppRouter() {
                 <Route path="/stat" element={<StatPage/>}/>
                 <Route path="/rank" element={<RankPage/>} />
                 <Route path="/author" element={<SearchPage/>} />
+                <Route path="/tagName" element={<TagNamePage/>} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

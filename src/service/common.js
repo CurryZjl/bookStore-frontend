@@ -1,5 +1,5 @@
 import { message as antdMessage } from "antd";
-export const BASEURL = 'http://localhost:8080';
+export const BASEURL = 'http://localhost:8000';
 export const PREFIX = `${BASEURL}/api`;
 export const MICRO_PREFIX = `${BASEURL}/micro`;
 export const DUMMY_RESPONSE = {
